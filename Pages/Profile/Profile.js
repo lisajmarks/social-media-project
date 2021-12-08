@@ -21,9 +21,7 @@ const Profile = (props) => {
   useEffect(() => {
     onValue(profileRef, (snapshot) => {
       if (snapshot.val() !== null) {
-        // const displayname = snapshot.val().name;
         setProfileData(snapshot.val());
-        // setName(displayname);
       } else {
         setProfileData({ bio: "", name: "" });
       }
