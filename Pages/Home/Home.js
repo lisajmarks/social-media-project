@@ -1,19 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  TextInput,
+} from "react-native";
 import styles from "./styles";
+import { getDatabase, ref, onValue, set } from "firebase/database";
 
 const Home = (props) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const signout = () => {
     props.userAuth.signOut();
   };
 
-  useEffect(() => {
-    if (props.userId === "") {
-      props.navigation.navigate("Auth");
-    }
-  }, [props.userId]);
+  const db = getDatabase();
+  const profileRef = ref(db, "profiles/" + props.userId);
+
+  // useEffect(() => {
+  //   if (props.userId === "") {
+  //     props.navigation.navigate("Auth");
+  //   } else {
+  //     console.log("profiles/" + props.userId);
+  //   }
+  // }, [props.userId]);
+
+  // onSubmit = () => {
+  //   set(profileRef, { name: name, bio: bio }).catch((err) => console.log(err));
+  // };
+
+  // useEffect(() => {}, []);
 
   return (
     <View style={styles.container}>
