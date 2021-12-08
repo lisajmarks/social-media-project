@@ -13,9 +13,20 @@ import styles from "./styles";
 const Profile = (props) => {
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
+  const [profiledata, setProfileData] = useState({ bio: "", name: "" });
 
   const db = getDatabase();
   const profileRef = ref(db, "profiles/" + props.userId);
+
+  useEffect(() => {
+    onValue(profileRef, (snapshot) => {
+      if (snapshot.val() !== null) {
+        // const displayname = snapshot.val().name;
+        setProfileData(snapshot.val());
+        // setName(displayname);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (props.userId === "") {
@@ -31,12 +42,11 @@ const Profile = (props) => {
     setBio("");
   };
 
-  //after user submits
-  // name and bio === ""
-  // if name and bio is empty and they submit, then alert error
-
   return (
     <View style={styles.container}>
+      <Text>{profiledata.name}</Text>
+      <Text>{profiledata.bio}</Text>
+
       <TextInput
         placeholder="Name"
         style={styles.input}
@@ -49,6 +59,7 @@ const Profile = (props) => {
         onChangeText={setBio}
         value={bio}
       />
+
       <TouchableOpacity onPress={onSubmit} style={styles.button}>
         <Text style={styles.buttonText}>Submit</Text>
       </TouchableOpacity>

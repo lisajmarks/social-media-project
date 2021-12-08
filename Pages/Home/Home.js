@@ -37,21 +37,21 @@ const Home = (props) => {
         onPress={() => props.navigation.navigate("Profile")}
         style={styles.button}
       >
-        <Text style={styles.text}>Profile</Text>{" "}
+        <Text style={styles.text}>Profile</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => props.navigation.navigate("NewPost")}
         style={styles.button}
       >
-        <Text style={styles.text}>New Post</Text>{" "}
+        <Text style={styles.text}>New Post</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => props.navigation.navigate("Posts")}
         style={styles.button}
       >
-        <Text style={styles.text}>Posts</Text>{" "}
+        <Text style={styles.text}>Posts</Text>
       </TouchableOpacity>
 
       <TouchableOpacity onPress={signout} style={styles.button}>
