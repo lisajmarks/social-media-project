@@ -24,6 +24,8 @@ const Profile = (props) => {
         // const displayname = snapshot.val().name;
         setProfileData(snapshot.val());
         // setName(displayname);
+      } else {
+        setProfileData({ bio: "", name: "" });
       }
     });
   }, []);
@@ -44,25 +46,30 @@ const Profile = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text>{profiledata.name}</Text>
-      <Text>{profiledata.bio}</Text>
-
-      <TextInput
-        placeholder="Name"
-        style={styles.input}
-        onChangeText={setName}
-        value={name}
-      />
-      <TextInput
-        placeholder="Bio"
-        style={styles.input}
-        onChangeText={setBio}
-        value={bio}
-      />
-
-      <TouchableOpacity onPress={onSubmit} style={styles.button}>
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
+      {profiledata.name === "" ? (
+        <>
+          <TextInput
+            placeholder="Name"
+            style={styles.input}
+            onChangeText={setName}
+            value={name}
+          />
+          <TextInput
+            placeholder="Bio"
+            style={styles.input}
+            onChangeText={setBio}
+            value={bio}
+          />
+          <TouchableOpacity onPress={onSubmit} style={styles.button}>
+            <Text style={styles.buttonText}>Submit</Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <>
+          <Text>{profiledata.name}</Text>
+          <Text>{profiledata.bio}</Text>
+        </>
+      )}
     </View>
   );
 };
