@@ -12,33 +12,43 @@ import {
 const NewPost = (props) => {
   const [newPost, setNewPost] = useState("");
   const [alert, setAlert] = useState(false);
-  const [allPosts, setAllPosts] = useState([]);
+  const [postAlert, setPostAlert] = useState(false);
+  const [firstname, setFirstName] = useState("");
+
   const db = getDatabase();
   const postListRef = ref(db, "posts/");
   const newPostRef = push(postListRef);
-
-  useEffect(() => {
-    onValue(postListRef, (snapshot) => {
-      setAllPosts(snapshot.val());
-    });
-  }, []);
+  const profileRef = ref(db, "profiles/" + props.userId);
 
   const onPost = () => {
-    setAlert(true);
-    set(newPostRef, {
-      text: newPost,
-      posterId: props.userId,
-    }).catch((err) => console.log(err));
-    setNewPost("");
-    const timer = setTimeout(() => {
-      setAlert(false);
-      clearTimeout(timer);
-    }, 2000);
+    if (firstname === "") {
+      setPostAlert(true);
+    } else {
+      setAlert(true);
+      set(newPostRef, {
+        name: firstname,
+        text: newPost,
+        posterId: props.userId,
+      }).catch((err) => console.log(err));
+      setNewPost("");
+      const timer = setTimeout(() => {
+        setAlert(false);
+        clearTimeout(timer);
+      }, 2000);
+    }
   };
 
   useEffect(() => {
-    console.log("new post thing ====>", props.postId);
-  }, [props.postId]);
+    onValue(profileRef, (snapshot) => {
+      console.log("userId >>> ", props.userId);
+      if (snapshot.val() !== null) {
+        console.log("Value from database >>> ", snapshot.val());
+        setFirstName(snapshot.val().name);
+      } else {
+        setFirstName("");
+      }
+    });
+  }, [props.userId]);
 
   return (
     <View>
@@ -52,17 +62,7 @@ const NewPost = (props) => {
         <Text>Post</Text>
       </TouchableOpacity>
       {alert ? <Text>You just made a POST</Text> : null}
-      <FlatList
-        data={allPosts}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        extraData={selectedId}
-      />
-      {/* <FlatList
-          data={allPosts}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-              <Task text={item} index={index} handleEdit={handleEdit} /> */}
+      {postAlert ? <Text> Please create a profile </Text> : null}
     </View>
   );
 };
