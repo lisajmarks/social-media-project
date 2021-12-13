@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList } from "react-native";
 import { getDatabase, ref, push, set, onValue } from "firebase/database";
+import styles from "./styles";
 
 const Posts = () => {
   const [allPosts, setAllPosts] = useState([]);
   const db = getDatabase();
   const postListRef = ref(db, "posts/");
-  const newPostRef = push(postListRef);
+  // const newPostRef = push(postListRef);
 
   useEffect(() => {
     onValue(postListRef, (snapshot) => {
@@ -18,7 +19,7 @@ const Posts = () => {
   console.log(allPosts);
 
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
         data={allPosts}
         renderItem={({ item, index }) => (
