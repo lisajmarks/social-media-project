@@ -17,13 +17,13 @@ const Home = (props) => {
   const db = getDatabase();
   const profileRef = ref(db, "profiles/" + props.userId);
 
-  // useEffect(() => {
-  //   if (props.userId === "") {
-  //     props.navigation.navigate("Auth");
-  //   } else {
-  //     console.log("profiles/" + props.userId);
-  //   }
-  // }, [props.userId]);
+  useEffect(() => {
+    if (props.userId === "") {
+      props.navigation.navigate("Auth");
+    } else {
+      console.log("profiles/" + props.userId);
+    }
+  }, [props.userId]);
 
   // onSubmit = () => {
   //   set(profileRef, { name: name, bio: bio }).catch((err) => console.log(err));
